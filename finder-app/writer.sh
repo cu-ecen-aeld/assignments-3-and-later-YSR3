@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#Adding comment for new push
 #Make sure the arguments are being called correctly...
 if [ $# -ne 2 ]; then
     echo "Error: Missing arguments. Usage: $0 <writefile> <writestr>"
