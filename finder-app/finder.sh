@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -ne 2 ]; then
-  echo "Error: Usage: $0 <filesdir> <searchstr>"
+  echo "Error: Usage is: $0 <filesdir> <searchstr>"
   exit 1
 fi
 
