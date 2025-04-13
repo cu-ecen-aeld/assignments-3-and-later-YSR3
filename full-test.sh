@@ -13,7 +13,7 @@ echo "starting test with SKIP_BUILD=\"${SKIP_BUILD}\" and DO_VALIDATE=\"${DO_VAL
 # See the logic in parse_docker_options for implementation
 logfile=test.sh.log
 # See https://stackoverflow.com/a/3403786
-# Place stdout and stderr in a log file.
+# Place stdout and stderr in a log file..
 exec > >(tee -i -a "$logfile") 2> >(tee -i -a "$logfile" >&2)
 
 echo "Running test with user $(whoami)"
