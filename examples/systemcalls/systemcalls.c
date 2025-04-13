@@ -1,4 +1,11 @@
 #include "systemcalls.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <syslog.h>
+#include <errno.h>
+#include <string.h>
 
 /**
  * @param cmd the command to execute with system()
@@ -9,15 +16,22 @@
 */
 bool do_system(const char *cmd)
 {
-
 /*
  * TODO  add your code here
  *  Call the system() function with the command set in the cmd
  *   and return a boolean true if the system() call completed with success
  *   or false() if it returned a failure
 */
+    int sysFunc = system(cmd);
 
-    return true;
+    if (sysFunc == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 /**
@@ -49,6 +63,7 @@ bool do_exec(int count, ...)
     // and may be removed
     command[count] = command[count];
 
+    va_end(args);
 /*
  * TODO:
  *   Execute a system command by calling fork, execv(),
@@ -58,9 +73,38 @@ bool do_exec(int count, ...)
  *   as second argument to the execv() command.
  *
 */
+    pid_t pid = fork();
 
-    va_end(args);
+    if (pid == -1)
+    {
+        syslog(LOG_ERR, "FAILURE\n");
+        closelog();
+        return false;
+    }
+    else if (pid == 0)
+    {
+        execv(command[0], &command[0]);
+        syslog(LOG_ERR, "execv() failed: %s", strerror(errno));
+        closelog();
 
+    }
+    else
+    {
+        // found example of wait() at https://www.ibm.com/docs/en/zvm/7.3?topic=descriptions-waitpid-wait-specific-child-process-end
+        int status;
+
+        pid_t wait_pid = wait(&status);
+
+        // https://man7.org/linux/man-pages/man2/wait.2.html#RETURN_VALUE... "wait(): on success, returns the process ID of the terminated
+        // child; on failure, -1 is returned."
+        if (status != 0 || wait_pid == -1)
+        {
+            syslog(LOG_ERR, "wait() failed: %s", strerror(errno));
+            closelog();
+            return false;
+        }
+    }
+   
     return true;
 }
 
@@ -95,5 +139,40 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
 
     va_end(args);
 
-    return true;
+    int fd = open(outputfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd < 0) {
+        perror("open");
+        return false;
+    }
+
+    __pid_t pid = fork();
+    int status;
+
+    switch (pid)
+    {
+    case -1:
+        perror("fork");
+        close(fd);
+        return false;
+
+    case 0:
+        if (dup2(fd, 1) < 0) {
+            perror("dup2");
+            close(fd);
+            exit(EXIT_FAILURE);
+        }
+        close(fd);
+        execv(command[0], command);
+        perror("execv");
+        exit(EXIT_FAILURE);
+
+    default:
+        close(fd);
+        if (waitpid(pid, &status, 0) == -1) {
+            perror("waitpid");
+            return false;
+        }
+
+        return false;
+    }
 }
