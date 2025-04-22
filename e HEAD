@@ -1,0 +1,83 @@
+[33mc487357[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;33mtag: assignment-4-part-1[m[33m, [m[1;31morigin/main[m[33m)[m Assignment 4 Part 1 Commit
+[33mccf2134[m Merge remote-tracking branch 'assignments-base/assignment4'
+[33m7ba3c2c[m[33m ([m[1;33mtag: assignment-3-part-2[m[33m)[m Assignment 3 Part 2
+[33md5c0633[m Merge remote-tracking branch 'assignments-base/assignment3-part-2'
+[33m4c80c61[m[33m ([m[1;33mtag: assignment-3-part-1[m[33m)[m Re-init problem runner
+[33m3bb21cb[m Restored autotest
+[33m77f7bf5[m Re-added clean assignment-autotest submodule
+[33m2197707[m Fully removed assignment-1-YSR3 submodule reference
+[33m9e872c1[m Fixed issues with runner file size
+[33m661f662[m Merge remote-tracking branch 'assignments-base/assignment3-part-1'
+[33md983f7b[m Added cross-compile.txt try 2
+[33m7ea4a03[m Added cross-compile.txt
+[33m1d89d04[m Implement write.c, Makefile, and a .txt file that shows cross compilation
+[33m0f8bf2a[m Merge remote-tracking branch 'assignments-base/assignment2'
+[33m5a049ff[m Trigger Actions runner for test
+[33m8030333[m Trigger GitHub Actions with a test change - 2
+[33mf84895a[m Trigger GitHub Actions with a test change
+[33mbb32866[m Assignment 1 first commit. Implemented finder.sh and writer.sh and tested
+[33ma98bb52[m[33m ([m[1;31massignments-base/assignment3-part-2[m[33m)[m Merge branch 'assignment3-part-1' into assignment3-part-2
+[33mb5be209[m[33m ([m[1;31massignments-base/assignment3-part-1[m[33m)[m assignment-autotest: update to latest
+[33me050730[m Merge branch 'assignment2' into assignment3-part-1
+[33mb144dce[m[33m ([m[1;31massignments-base/assignment2[m[33m)[m assignment-autotest: update submodule
+[33me485aee[m[33m ([m[1;31massignments-base/assignment4[m[33m)[m Merge branch 'assignment3-part-2' into assignment4
+[33m21f5f74[m Update linux version to 5.15
+[33me96d30e[m Merge branch 'assignment3-part-1' into assignment3-part-2
+[33me8431ef[m Merge remote-tracking branch 'origin/assignment2' into assignment3-part-1
+[33ma69a4c2[m Merge remote-tracking branch 'origin/master' into assignment2
+[33mcc85b8e[m[33m ([m[1;31massignments-base/master[m[33m)[m Merge pull request #49 from cu-ecen-aeld/f24-container-update
+[33mf0c7a24[m[33m ([m[1;31massignments-base/f24-container-update[m[33m)[m Update container for F24
+[33m553f323[m Merge pull request #20 from Amynka/master
+[33meed71d7[m fix git command in README.md
+[33m691b457[m Merge branch 'assignment3-part-2' into assignment4
+[33mc93ab2a[m Merge branch 'assignment3-part-1' into assignment3-part-2
+[33m667e247[m Merge branch 'assignment2' into assignment3-part-1
+[33m74e0e29[m Merge branch 'master' into assignment2
+[33m0c26576[m Merge pull request #11 from cu-ecen-aeld/update-assignment-autotest
+[33m8de9c85[m[33m ([m[1;31massignments-base/update-assignment-autotest[m[33m)[m assignment-autotest: Go to latest automated tests
+[33me5fa1f0[m Merge pull request #5 from cu-ecen-aeld/yaml-fix-a1
+[33m27c17d4[m[33m ([m[1;31massignments-base/yaml-fix-a1[m[33m)[m github-actions: Don't re-run on tags
+[33mc5419ed[m Revert "yaml changes for a3p1"
+[33m3bf587a[m yaml changes for a3p1
+[33m81484b9[m Revert "yaml fix for a2"
+[33me34c0d0[m yaml fix for a2
+[33m633c604[m Update finder-test.sh (#4)
+[33m3a5e8e8[m Add threading tets for assignment 4
+[33me0a72ba[m Remove full test for assignment 4
+[33m93a6e55[m Use assignment3 container image
+[33mad429d6[m Add assignment 3 part 1 changes
+[33mf8ec531[m Updates for assignment 2
+[33m6a40758[m Add unit test script
+[33m78dd304[m Fix comment in CMakeLists
+[33me861c03[m Use updated path to assignment autotest submodule
+[33m2021730[m Latest assignment autotest
+[33m3e2a932[m Replace git checkout submodule action
+[33m1aca481[m Update assignment tests
+[33m90cabec[m Update README.md
+[33m6c8d30e[m Update README.md
+[33ma84bd2d[m Latest assignment autotest repo
+[33m91988a7[m Use self hosted runner
+[33m758fe00[m Use shell script for finder implementation
+[33mbe364f3[m Fix paths in README
+[33ma81bb48[m Add github actions
+[33mb52aed8[m Fall 21 assignment 1 cleanup
+[33m807de20[m Latest test script
+[33mf2eca01[m Merge branch 'assignment1'
+[33m82b8514[m Fix comments
+[33mbe5241d[m Merge pull request #1 from cu-ecen-5013/assignment1
+[33mdbd4476[m Updates for assignment 1
+[33m65c307e[m Remove autotest-validate binary, add to gitignore
+[33m276d153[m Update comments for assignment 1
+[33m54d2ff7[m Rename to remove github from username ref
+[33m1e019d5[m Additional files for assignment 1
+[33m7c7faac[m Update assignemnt-autotest to latest, added TODO
+[33m944c885[m Submodule added, test.sh and unity framework included
+[33mdc7e752[m Added username for file name, and .txt eextesnion
+[33m4d17e7a[m Modifications for Spring 2020 semester
+[33madb26de[m Comment out writer line
+[33mc725b82[m MATCHSTR updated
+[33m56decec[m Remove rogue $i
+[33m381e10d[m Update README.md
+[33m63e69df[m Add merge assist blocks
+[33mc5b608b[m Assignment 1 base code
+[33m5af5b40[m Initial commit
