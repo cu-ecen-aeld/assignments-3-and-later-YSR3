@@ -1,5 +1,6 @@
 #!/bin/sh
 # Tester script for assignment 1 and assignment 2
+# updated by Reagan Mann
 # Author: Siddhant Jajoo
 
 set -e
