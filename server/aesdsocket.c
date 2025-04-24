@@ -1,4 +1,4 @@
-#define _XOPEN_SOURCE 700 //add this to top for VSCode intelliSense to allow sigAction (weird...)
+#define _XOPEN_SOURCE 700 //needed this for VSCode Intellisense......
 #include <sys/socket.h>
 #include <signal.h>
 #include <features.h>
@@ -22,14 +22,15 @@ struct sockaddr_in server_addr;
 
 volatile sig_atomic_t exit_requested = false;
 
+//get rid of socket if SIGTERM or SIGINT is sent
 void handle_signal(int sig) {
     syslog(LOG_INFO, "Caught signal %d, exiting", sig);
-    exit_requested = true;
-    shutdown(sockfd, SHUT_RDWR); // shutdown gracefully
-    close(sockfd);
+    exit_requested = true;  // set flag
 }
 
 int main(int argc, char *argv[]) {
+
+    //allow -d for daemon mode
     int daemon_mode = 0;
     if (argc == 2 && strcmp(argv[1], "-d") == 0) {
         daemon_mode = 1;
@@ -41,6 +42,16 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    // needed to add a sockopt for ./full-test.sh, gets rid of "address in use"
+    // was failing .full-test, seemed to work!!!
+    int opt = 1;
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
+        syslog(LOG_ERR, "setsockopt failed");
+        close(sockfd);
+        return -1;
+    }
+
+    //fill up server_addr with zeroes
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
@@ -52,14 +63,28 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    //try 5 times
     if (listen(sockfd, 5) == -1) {
         syslog(LOG_ERR, "Listen failed");
         close(sockfd);
         return -1;
     }
 
+    if (daemon_mode) {
+        pid_t pid = fork();
+        if (pid < 0) {
+            syslog(LOG_ERR, "Fork failed");
+            exit(EXIT_FAILURE);
+        }
+        if (pid > 0) exit(EXIT_SUCCESS);
+        close(STDIN_FILENO);
+        close(STDOUT_FILENO);
+        close(STDERR_FILENO);
+    }
+
     openlog("aesdsocket", LOG_PID, LOG_USER);
 
+    //link sigaction to happen on SIGINT or SIGTERM to handle_signal, which sends a bool to stop the while loop
     struct sigaction sa;
     memset(&sa, 0, sizeof(sa));
     sa.sa_handler = handle_signal;
@@ -74,24 +99,7 @@ int main(int argc, char *argv[]) {
         syslog(LOG_ERR, "Failed to clear file %s", FILE_PATH);
     }
 
-    if (daemon_mode) {
-        pid_t pid = fork();
-        if (pid < 0) {
-            syslog(LOG_ERR, "Fork failed");
-            exit(EXIT_FAILURE);
-        }
-        if (pid > 0) exit(EXIT_SUCCESS);
-
-        if (setsid() < 0) {
-            syslog(LOG_ERR, "setsid failed");
-            exit(EXIT_FAILURE);
-        }
-
-        close(STDIN_FILENO);
-        close(STDOUT_FILENO);
-        close(STDERR_FILENO);
-    }
-
+    // keep looping until a term signal is received!
     while (!exit_requested) {
         struct sockaddr_in client_addr;
         socklen_t client_len = sizeof(client_addr);
@@ -124,6 +132,7 @@ int main(int argc, char *argv[]) {
             memcpy(data_buffer + total_received, buffer, bytes_received);
             total_received += bytes_received;
 
+            //keep getting data from buffer until we see \n
             if (memchr(buffer, '\n', bytes_received)) {
                 break;
             }
